@@ -1,12 +1,29 @@
-import os
-file_list = os.listdir() 
-print(len(file_list))
-i=0
-while  i < len(file_list):
-    if file_list[i].endswith('.dupl') and os.path.isfile(file_list[i]):
-        
-        print(i,"-", file_list[i])
-        #os.remove(file_list[i])
-        i += 1;
-        
-print("итог",file_list)
+import turtle
+import random
+import math
+
+
+def gotoxy(x,y):
+    turtle.penup()
+    turtle.goto(0,0)
+    turtle.pendown()
+
+
+turtle.speed(40)
+
+gotoxy(0,0)
+turtle.circle(80)
+
+gotoxy(0,160)
+turtle.fillcolor('red')
+turtle.begin_fill()
+turtle.circle(5)
+turtle.end_fill()
+
+phi = 360 / 7
+r = 50
+
+for i in range(0,7):
+    phi_rad = phi * i * math.pi / 180
+    gotoxy(math.sin(phi_rad * i)*r, math.cos(phi_rad * i)*r) 
+    turtle.circle(20)

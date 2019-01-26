@@ -11,7 +11,7 @@ r = 200
 x = 0
 y = 0 - r / 2
 
-        gotoxy(x, y)
+        gotoxy(x,y)
         turtle.fillcolor('red')
 
         turtle.circle(r)
