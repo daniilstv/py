@@ -1,0 +1,12 @@
+import os
+file_list = os.listdir() 
+print(len(file_list))
+i=0
+while  i < len(file_list):
+    if file_list[i].endswith('.dupl') and os.path.isfile(file_list[i]):
+        
+        print(i,"-", file_list[i])
+        #os.remove(file_list[i])
+        i += 1;
+        
+print("итог",file_list)
