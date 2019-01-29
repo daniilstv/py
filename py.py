@@ -2,7 +2,7 @@ import os
 import psutil
 import sys
 import shutil
-
+import random
 
 def ch_dir():
     answer3_path = os.getcwd()
@@ -14,7 +14,7 @@ def ch_dir():
 
 
 def del_dupl(path):  # удалить дубликаты в папке
-
+    #path = os.getcwd(path)  #!!!
     file_list = os.listdir(path) 
     print("Файлов в директории - ", len(file_list))
     print(file_list)
@@ -25,52 +25,74 @@ def del_dupl(path):  # удалить дубликаты в папке
             print(i, "-" , f)  #
             os.remove(full_name) 
             if not os.path.exists(full_name):
-                print('файл',f,'удален')  #
+                print('файл',f,'удален')
                 i += 1
     print("Удалено ", i, "файлов из " , len(file_list))  #
     return i    
-        
-        
-def copy_file(full_name):  # дублировать один файл
 
-    newfile = full_name + '.dupl'
-    shutil.copy(full_name, newfile)
-    # добавить проверку существования нового файла
-    print("Ok, дублирован ", full_name)
-
-
-
+def dupl_all(answer3_path):
+    print("Дублирую все файлы")
+    file_list = os.listdir(answer3_path)
+    print(file_list)
+    i = 0
     
-print(" New edu programm", '\n''\n', "Привет программист!"'\n')
-name = input("Ваше имя:")
-print(name, ", добро пожаловать в мир Python!")
-answer = ''
+    while  i < len(file_list):
+        fullpath = os.path.join(answer3_path, file_list[i])
+        copy_file(fullpath)
+        i += 1
 
 
-while answer != "q":
-    answer = input('\nДавай поработаем? y/n')
+def copy_file(full_name):  # дублировать один файл
+    if os.path.isfile(full_name):
+        newfile = full_name + '.dupl'
+        shutil.copy(full_name, newfile)
+        # добавить проверку существования нового файла
+        print("Ok, дублирован ", full_name)
 
-    if answer == 'y':
+def del_rnd(answer3_path):
+    file_list = os.listdir(answer3_path)
+    if file_list:
+        len(file_list)
+        full_name = os.path.join(answer3_path,file_list[random.randrange(0,len(file_list))])
+        if os.path.isfile(full_name):
+            os.remove(full_name)
+        if not os.path.exists(full_name):
+            print('файл',full_name,'удален')
+
+def main():
+
+    print(" New edu programm", '\n''\n', "Привет программист!"'\n')
+    name = input("Ваше имя:")
+    print(name, ", добро пожаловать в мир Python!")
+    answer = ''
+    answer3_path = os.getcwd()
+
+    while answer != "q":
+    #    answer = input('\nДавай поработаем? y/n')
+
+    #if answer == 'y':
         
-        print('\nОтлично!\n              ')
+    #print('\nОтлично!\n              ')
         print("Я могу: " ) 
         print("1 - смотреть текущую директорию"  )
         print("2 - смотреть системное окружение" ) 
         print("3 - смотреть список процессов" ) 
         print("4 - дублировать все файлы" ) 
         print("5 - дублировать один файл" )      
-        print("6 - удалить дубликаты\n" )                     
-             
-        
+        print("6 - удалить дубликаты" )                     
+        print("7 - сменить рабочий каталог" )    
+        print("8 - удалить случайный файл \n" )    
+
         answer2 = int(input("Что будем делать?"))    
-        answer3_path = os.getcwd()
+
 
         #print(answer2, "- отличный выбор!")
 
         if answer2 == 1:  # 1 - смотреть текущую директорию 
-            print(os.listdir())  # os.getcwd()
-            
-        elif answer2 ==2:  # 2 - смотреть системное окружение
+            #print(os.listdir())  # os.getcwd()
+            print(answer3_path)
+
+        elif answer2 == 2:  # 2 - смотреть системное окружение
             print(os.getcwd(), '\n',  # путь
                 os.name,
                 os.uname()[2], sys.platform,'\n', # ос, версия  sys.platform
@@ -81,21 +103,12 @@ while answer != "q":
                 )
         elif answer2 == 3:  # 3 - смотреть список процессов
             print(psutil.pids())
-        
+
         elif answer2 == 4:  # 4 - дублировать все файлы
-            print("Дублирую файлы")
-            file_list = os.listdir()
-            print(file_list)
-            i = 0
-            while  i < len(file_list) :
-                if os.path.isfile(file_list[i]):
-                    newfile = file_list[i] + '.dupl'
-                    shutil.copy(file_list[i], newfile)
-                    i += 1
-            print("done") 
-         
+            dupl_all(answer3_path)
+
         elif answer2 == 5:  # 5 - дублировать один файл
-    
+
             ch_dir()
             
             file_list = os.listdir(answer3_path) 
@@ -111,22 +124,34 @@ while answer != "q":
             print("Ok, дублирован ", file_list[n_del_file-1])
             
         elif answer2 == 6:  # 6 - удалить дубликаты
-        
+
             ch_dir()
-            answer3_path = os.getcwd()
+            #answer3_path = os.getcwd()
             n_del = del_dupl(answer3_path)
             file_list = os.listdir(answer3_path) 
 
-            print("Удалено ", n_del, "файлов из " , len(file_list))  #
             print(file_list)
             print("done") 
-        
-        else:
-            pass
-    elif answer == 'n':
-        
-        print("До свидания!")
 
+        elif answer2 == 7:  # 7 - сменить рабочий каталог
+            answer3_path = input('Укажи директорию')
+
+        elif answer2 == 8:  # 8 - удалить случайный файл
+            answer3_path = input('Укажи директорию')
+            del_rnd(answer3_path)
+
+
+        else:
+            print("Неизвестный ответ")
+    
+#    elif answer == 'q':
+#        print("До свидания!")
+#        exit()
+    
     else:
-        
-        print("Неизвестный ответ - buy!")
+        print("Неизвестный ответ")
+
+if __name__ == "__main__":
+    main()
+
+
